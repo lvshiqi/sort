@@ -145,7 +145,7 @@ public class SortFactory {
     }
 
     /**
-     * Merge sort
+     * Merge sort 
      * @param result
      * @param low
      * @param mid
