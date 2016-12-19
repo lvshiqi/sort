@@ -144,6 +144,13 @@ public class SortFactory {
         return result;
     }
 
+    /**
+     * Merge sort
+     * @param result
+     * @param low
+     * @param mid
+     * @param high
+     */
     public void merge(int[] result, int low, int mid, int high) {
         int[] tempNumbers = new int[high - low + 1];
         int i = low;
@@ -170,5 +177,9 @@ public class SortFactory {
         for (int k = 0; k < tempNumbers.length; k++) {
             result[k + low] = tempNumbers[k];
         }
+    }
+
+    public void quickSort_not_recursion(int[] result){
+
     }
 }
