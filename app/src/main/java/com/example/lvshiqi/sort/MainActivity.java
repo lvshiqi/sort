@@ -55,6 +55,8 @@ public class MainActivity extends AppCompatActivity{
         mHeadings.add("Select sort");
         mHeadings.add("Quick sort");
         mHeadings.add("Merge sort");
+        mHeadings.add("Quick sort without recursion");
+        mHeadings.add("Merge sort without recursion");
     }
 
 

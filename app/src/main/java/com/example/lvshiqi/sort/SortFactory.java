@@ -1,5 +1,7 @@
 package com.example.lvshiqi.sort;
 
+import java.util.Stack;
+
 /**
  * Created by lvshiqi on 16-11-28.
  * Sort factory
@@ -22,6 +24,8 @@ public class SortFactory {
                 case 3:
                     mergeSort(result, 0, result.length - 1);
                     break;
+                case 4:
+                    quickSort_not_recursion(result);
                 default:
                     break;
             }
@@ -145,7 +149,7 @@ public class SortFactory {
     }
 
     /**
-     * Merge sort 
+     * Merge sort
      * @param result
      * @param low
      * @param mid
@@ -179,7 +183,51 @@ public class SortFactory {
         }
     }
 
-    public void quickSort_not_recursion(int[] result){
+    public int[] quickSort_not_recursion(int[] result) {
+        int i = 0;
+        int j = result.length-1;
+        int min;    // Every loop's max number
+        int max;    // Every loop's minus number
+        int key = result[0];
 
+        Stack<Integer> conditions = new Stack<Integer>();
+        conditions.push(0);
+        conditions.push(result.length-1);
+        int temp;
+
+        while(!conditions.empty()){
+            j = conditions.pop();
+            i = conditions.pop();
+            key = result[i];
+            min = i;
+            max = j;
+
+            while(i<j) {
+                while (key < result[j] && i<j) {
+                    j--;
+                }
+
+                while (key > result[i] && i<j) {
+                    i++;
+                }
+
+                // Swap
+                temp = result[j];
+                result[j] = result[i];
+                result[i] = temp;
+            }
+
+            if(min<i-1){
+                conditions.push(min);
+                conditions.push(i-1);
+            }
+
+            if(max>i+1){
+                conditions.push(i+1);
+                conditions.push(max);
+            }
+        }
+
+        return result;
     }
 }
