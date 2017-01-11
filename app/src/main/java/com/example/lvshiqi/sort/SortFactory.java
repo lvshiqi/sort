@@ -184,29 +184,35 @@ public class SortFactory {
     }
 
     public int[] quickSort_not_recursion(int[] result) {
-        int i = 0;
-        int j = result.length-1;
-        int min;    // Every loop's max number
-        int max;    // Every loop's minus number
-        int key = result[0];
+        int i;
+        int j;
+        int min;    // Every loop's max index
+        int max;    // Every loop's minus index
+        int key;
 
-        Stack<Integer> conditions = new Stack<Integer>();
+        Stack<Integer> conditions = new Stack<Integer>();   // Record the minus index and the max index
         conditions.push(0);
         conditions.push(result.length-1);
         int temp;
 
+        // In every loop will get a left index and right index.
         while(!conditions.empty()){
-            j = conditions.pop();
-            i = conditions.pop();
-            key = result[i];
-            min = i;
-            max = j;
+            max = conditions.pop();
+            min = conditions.pop();
+            key = result[min];
+            i = min+1;
+            j = max;
 
+            // With this step, the numbers can be divided to 2 sections,
+            // the left side is smaller than the key value,
+            // the right side is bigger than the key value.
             while(i<j) {
+                // Get the number's index which is smaller than key
                 while (key < result[j] && i<j) {
                     j--;
                 }
 
+                // Get the number's index which is bigger than key
                 while (key > result[i] && i<j) {
                     i++;
                 }
@@ -217,16 +223,31 @@ public class SortFactory {
                 result[i] = temp;
             }
 
+            // Swap the key and i(or j)
+            if(key>result[i]){
+                temp = result[min];
+                result[min] = result[j];
+                result[j] = temp;
+            }
+
+            // Store the left side minus index and the max index
             if(min<i-1){
                 conditions.push(min);
                 conditions.push(i-1);
             }
 
+            // Store the right side minus index and the max index
             if(max>i+1){
                 conditions.push(i+1);
                 conditions.push(max);
             }
         }
+
+        return result;
+    }
+
+    public int[] mergeSort_not_recursion(int[] result) {
+
 
         return result;
     }

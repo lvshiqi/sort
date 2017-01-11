@@ -12,7 +12,7 @@ import java.util.Arrays;
  */
 public class resultAcitvity extends Activity {
     TextView mResults;
-    private int[] numbers = {10, 58, 1, 11, 2, 5, 71};
+    private int[] numbers = {3, 58, 1, 11, 2, 5, 71};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
