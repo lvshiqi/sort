@@ -26,6 +26,8 @@ public class SortFactory {
                     break;
                 case 4:
                     quickSort_not_recursion(result);
+                case 5:
+                    mergeSort_not_recursion(result);
                 default:
                     break;
             }
@@ -247,8 +249,25 @@ public class SortFactory {
     }
 
     public int[] mergeSort_not_recursion(int[] result) {
+        int[] backup = result;   // To store result temporarily
+        int length = result.length;
+        int loopCount = 1;
 
+        int groupCount = length/(2*loopCount);
 
-        return result;
+        while(length/(2*loopCount)>0){
+            for(int i = 0; i<groupCount; i++){
+                for(int j = 0; j<2*loopCount; i++){
+                    int low = 0;
+                    int high = 2*loopCount-1;
+
+                    if(result[low]>result[high]){
+
+                    }
+                }
+            }
+        }
+
+        return backup;
     }
 }
