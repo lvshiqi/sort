@@ -152,6 +152,7 @@ public class SortFactory {
 
     /**
      * Merge sort
+     *
      * @param result
      * @param low
      * @param mid
@@ -160,7 +161,7 @@ public class SortFactory {
     public void merge(int[] result, int low, int mid, int high) {
         int[] tempNumbers = new int[high - low + 1];
         int i = low;
-        int j = mid+1;
+        int j = mid + 1;
         int temp = 0;
 
         // Set the minus number to the forahead numbers
@@ -194,28 +195,28 @@ public class SortFactory {
 
         Stack<Integer> conditions = new Stack<Integer>();   // Record the minus index and the max index
         conditions.push(0);
-        conditions.push(result.length-1);
+        conditions.push(result.length - 1);
         int temp;
 
         // In every loop will get a left index and right index.
-        while(!conditions.empty()){
+        while (!conditions.empty()) {
             max = conditions.pop();
             min = conditions.pop();
             key = result[min];
-            i = min+1;
+            i = min + 1;
             j = max;
 
             // With this step, the numbers can be divided to 2 sections,
             // the left side is smaller than the key value,
             // the right side is bigger than the key value.
-            while(i<j) {
+            while (i < j) {
                 // Get the number's index which is smaller than key
-                while (key < result[j] && i<j) {
+                while (key < result[j] && i < j) {
                     j--;
                 }
 
                 // Get the number's index which is bigger than key
-                while (key > result[i] && i<j) {
+                while (key > result[i] && i < j) {
                     i++;
                 }
 
@@ -226,21 +227,21 @@ public class SortFactory {
             }
 
             // Swap the key and i(or j)
-            if(key>result[i]){
+            if (key > result[i]) {
                 temp = result[min];
                 result[min] = result[j];
                 result[j] = temp;
             }
 
             // Store the left side minus index and the max index
-            if(min<i-1){
+            if (min < i - 1) {
                 conditions.push(min);
-                conditions.push(i-1);
+                conditions.push(i - 1);
             }
 
             // Store the right side minus index and the max index
-            if(max>i+1){
-                conditions.push(i+1);
+            if (max > i + 1) {
+                conditions.push(i + 1);
                 conditions.push(max);
             }
         }
@@ -249,25 +250,40 @@ public class SortFactory {
     }
 
     public int[] mergeSort_not_recursion(int[] result) {
-        int[] backup = result;   // To store result temporarily
         int length = result.length;
-        int loopCount = 1;
+        int[] temp = new int[length];
+        int left_min, left_max, right_min, right_max;
 
-        int groupCount = length/(2*loopCount);
+        // Initialize
+        left_min = left_max = right_max = right_min = 0;
 
-        while(length/(2*loopCount)>0){
-            for(int i = 0; i<groupCount; i++){
-                for(int j = 0; j<2*loopCount; i++){
-                    int low = 0;
-                    int high = 2*loopCount-1;
+        if (result.length == 0) {
+            LogUtils.e("mergeSort_not_recursion", "The count of array is null", null);
+        }
 
-                    if(result[low]>result[high]){
+        for (int i = 1; i < length; i *= 2) {
+            for (left_min = 0; left_min < length - i; left_min = right_max) {
+                left_max = right_min = left_min + i;
+                right_max = right_min + i;
 
-                    }
+                if (right_max > length)
+                    right_max = length;
+
+                int next = 0;
+                while (left_min < left_max && right_min < right_max) {
+                    temp[next++] = result[left_min] > result[right_min] ? result[right_min++] : result[left_min++];
+                }
+
+                while (left_min < left_max) {
+                    result[--right_min] = result[--left_max];
+                }
+
+                while (next > 0) {
+                    result[--right_min] = temp[--next];
                 }
             }
         }
 
-        return backup;
+        return result;
     }
 }
