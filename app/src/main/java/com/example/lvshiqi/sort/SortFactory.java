@@ -7,7 +7,6 @@ import java.util.Stack;
  * Sort factory
  */
 public class SortFactory {
-    private int[] numbers;
 
     public int[] excuteFunction(int function, int[] result) {
         if (result.length != 0) {
@@ -186,6 +185,11 @@ public class SortFactory {
         }
     }
 
+    /**
+     * The quicksort without recursion
+     * @param result
+     * @return
+     */
     public int[] quickSort_not_recursion(int[] result) {
         int i;
         int j;
@@ -249,39 +253,75 @@ public class SortFactory {
         return result;
     }
 
+    /**
+     * Merge sort without recursion
+     * @param result
+     * @return
+     */
     public int[] mergeSort_not_recursion(int[] result) {
         int length = result.length;
-        int[] temp = new int[length];
-        int left_min, left_max, right_min, right_max;
-
-        // Initialize
-        left_min = left_max = right_max = right_min = 0;
+        int[] temp = new int[length]; // To store the minus numbers
 
         if (result.length == 0) {
             LogUtils.e("mergeSort_not_recursion", "The count of array is null", null);
         }
 
-        for (int i = 1; i < length; i *= 2) {
-            for (left_min = 0; left_min < length - i; left_min = right_max) {
-                left_max = right_min = left_min + i;
-                right_max = right_min + i;
-
-                if (right_max > length)
-                    right_max = length;
-
-                int next = 0;
-                while (left_min < left_max && right_min < right_max) {
-                    temp[next++] = result[left_min] > result[right_min] ? result[right_min++] : result[left_min++];
-                }
-
-                while (left_min < left_max) {
-                    result[--right_min] = result[--left_max];
-                }
-
-                while (next > 0) {
-                    result[--right_min] = temp[--next];
-                }
+        // Split array
+        int gap, i = 0;
+        for (gap = 1; gap < length; gap *= 2) {
+            // To use gap splits numbers
+            for (i = 0; i + 2 * gap - 1 < length; i = i + 2 * gap) {
+                mergesort(temp, i, i + gap, i + 2 * gap - 1, result);
             }
+
+            // The rest of numbers
+            if (i + gap < length) {
+                mergesort(temp, i, i + gap, length - 1, result);
+            }
+        }
+
+        return result;
+    }
+
+    public int[] mergesort(int[] temp, int min, int middle, int high, int[] result){
+        int index = 0;
+        int i = min;
+        int j = middle;
+
+        // Get The smaller numbers,
+        // Store them in temp
+        while(i <= middle-1 && j<=high) {
+            if (result[i] >= result[j]) {
+                temp[index] = result[j];
+                j++;
+                index++;
+            }else{
+                temp[index] = result[i];
+                i++;
+                index++;
+            }
+        }
+
+        // To store the rest of numbers to temp
+        while (i < middle) {
+            temp[index] = result[i];
+            i++;
+            index++;
+        }
+
+        // To store the rest of numbers to temp
+        while (j < high) {
+            temp[index] = result[j];
+            j++;
+            index++;
+        }
+
+        // To copy numbers back to result
+        int k = 0;
+        while (k < index) {
+            result[min] = temp[k];
+            k++;
+            min++;
         }
 
         return result;
